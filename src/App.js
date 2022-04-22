@@ -10,7 +10,7 @@ function Square({ player, setPlayer }){
       setPlayer(player === 'O' ? 'X' : 'O');
     }
   };
-
+  
   return (
     <button className="square" onClick={updateMark}>{mark}</button>
   );
@@ -18,7 +18,7 @@ function Square({ player, setPlayer }){
 
 function Board() {
   const dummyArray = ['', '', ''];
-  const [player, setPlayer] = useState('X');
+  const [aPlayer, setPlayer] = useState('X');
 
   return (
     <div className="game-board">
@@ -26,7 +26,7 @@ function Board() {
         dummyArray.map((item) => (
           <div className="board-row">
             {
-              dummyArray.map((item) => <Square player={player} setPlayer={setPlayer} />)
+              dummyArray.map((item) => <Square player={aPlayer} setPlayer={setPlayer} />)
             }
           </div>
         ))
