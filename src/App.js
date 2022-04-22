@@ -1,23 +1,68 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+
+function Square({ player, setPlayer }){
+  const [mark, setMark] = useState('');
+
+  const updateMark = () => {
+    if (!mark) {
+      setMark(player);
+      setPlayer(player === 'O' ? 'X' : 'O');
+    }
+  };
+
+  return (
+    <button className="square" onClick={updateMark}>{mark}</button>
+  );
+}
+
+function Board() {
+  const dummyArray = ['', '', ''];
+  const [player, setPlayer] = useState('X');
+
+  return (
+    <div className="game-board">
+      {
+        dummyArray.map((item) => (
+          <div className="board-row">
+            {
+              dummyArray.map((item) => <Square player={player} setPlayer={setPlayer} />)
+            }
+          </div>
+        ))
+      }
+    </div>
+  );
+
+  // return (
+  //   <div className='game-board'>
+  //     <div className="board-row">
+  //       <Square />
+  //       <Square />
+  //       <Square />
+  //     </div>
+  //     <div className="board-row">
+  //       <Square />
+  //       <Square />
+  //       <Square />
+  //     </div>
+  //     <div className="board-row">
+  //       <Square />
+  //       <Square />
+  //       <Square />
+  //     </div>
+  //   </div>
+  // )
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="game">
+      <Board />
+      <div className="game-info">
+        <div>{/* status */}</div>
+        <ol>{/* TODO */}</ol>
+      </div>
     </div>
   );
 }
