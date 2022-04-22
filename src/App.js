@@ -1,66 +1,40 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { gameReducer, initialState } from './game';
 import './App.css';
 
-function Square({ player, setPlayer }){
-  const [mark, setMark] = useState('');
-
-  const updateMark = () => {
-    if (!mark) {
-      setMark(player);
-      setPlayer(player === 'O' ? 'X' : 'O');
-    }
-  };
-  
+function Square({ mark, updateMark }){
   return (
     <button className="square" onClick={updateMark}>{mark}</button>
   );
 }
 
-function Board() {
-  const dummyArray = ['', '', ''];
-  const [aPlayer, setPlayer] = useState('X');
-
+function Board({ board, updateGame }) {
   return (
     <div className="game-board">
       {
-        dummyArray.map((item) => (
+        board.map((rowOfMarks, row) => (
           <div className="board-row">
             {
-              dummyArray.map((item) => <Square player={aPlayer} setPlayer={setPlayer} />)
+              rowOfMarks.map((mark, col) => (
+                <Square mark={mark} updateMark={() => updateGame({ row, col })} />
+              ))
             }
           </div>
         ))
       }
     </div>
   );
-
-  // return (
-  //   <div className='game-board'>
-  //     <div className="board-row">
-  //       <Square />
-  //       <Square />
-  //       <Square />
-  //     </div>
-  //     <div className="board-row">
-  //       <Square />
-  //       <Square />
-  //       <Square />
-  //     </div>
-  //     <div className="board-row">
-  //       <Square />
-  //       <Square />
-  //       <Square />
-  //     </div>
-  //   </div>
-  // )
 }
 
 function App() {
+  const [game, updateGame] = useReducer(gameReducer, initialState);
+
   return (
     <div className="game">
-      <Board />
+      <Board board={game.board} updateGame={updateGame} />
       <div className="game-info">
-        <div>{/* status */}</div>
+        <div>{game.winner}</div>
+        <div>{game.error}</div>
         <ol>{/* TODO */}</ol>
       </div>
     </div>
