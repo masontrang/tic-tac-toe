@@ -26,6 +26,13 @@ function Board({ board, updateGame }) {
   );
 }
 
+function NewGame({ newGame }) {
+  return (
+    <button className='new-game' onClick={newGame}>New Game</button>
+    
+  );
+}
+
 function App() {
   const [game, updateGame] = useReducer(gameReducer, initialState);
 
@@ -35,6 +42,7 @@ function App() {
       <div className="game-info">
         <div>{game.winner}</div>
         <div>{game.error}</div>
+        {game.winner ? <NewGame newGame={() => updateGame({ reset: true })} /> : null}
         <ol>{/* TODO */}</ol>
       </div>
     </div>

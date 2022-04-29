@@ -13,7 +13,12 @@ const copy = (data) => JSON.parse(JSON.stringify(data));
 
 export function gameReducer(state, action) {
   const nextState = copy(state); // create a new copy of the state
-  const { row, col } = action; // extract the row and column of the move
+  const { reset = false, row, col } = action; // extract the row and column of the move
+
+  if (reset) {
+    return initialState;
+  }
+
 
   if (state.winner) { // game is already over
     nextState.error = "Game already won";
